@@ -29,7 +29,6 @@ static int miFgets(char* cadena, int tam)
 		}
 		else
 		{
-			printf("\nERROR,cadena");
 			retorno = 1;
 		}
 	}
@@ -57,7 +56,6 @@ static int esInt(char* cadena, int tam)
 			}
 			else
 			{
-				printf("\nERROR,int");
 				retorno = 1;
 				break;
 			}
@@ -98,7 +96,6 @@ static int esFloat(char* cadena, int tam)
 				}
 				else
 				{
-					printf("\nERROR,float");
 					retorno = 1;
 					break;
 				}
@@ -249,3 +246,5 @@ int pedirCharDosOpciones(char* direccion, char opcionUno, char opcionDos, char m
 
 	return retorno;
 }
+
+

@@ -10,6 +10,14 @@
 #include <stdlib.h>
 #include "funcionesUsuario.h"
 #include "funcionesDeIngreso.h"
+#include "funcionesJugador.h"
+
+#define TAMPOS 4
+#define TAMCAM 22
+#define TAMCON 6
+
+//posiciones -> 0=Arquero 1=Defensor 2=Mediocampo 3=Delantero
+//confederaciones -> 0=AFC 1=CAF 2=CONCACAF 3=CONMEBOL 4=UEFA 5=OFC
 
 int main(void)
 {
@@ -20,14 +28,33 @@ int main(void)
 	char ingresoCostos;
 	char cargoJugadores;
 	char realizoCalculos;
+	float costoHospedaje;
+	float costoComida;
+	float costoTransporte;
+	float costoTotalMantenimiento;
+	float costoTotalAumento;
+	int cantidadJugadores;
+	int posiciones[TAMPOS];
+	int camisestas[TAMCAM];
+	int confederaciones[TAMCON];
+	float promediosConfederaciones[TAMCON];
 
 	ingresoCostos = 'n';
 	cargoJugadores = 'n';
 	realizoCalculos = 'n';
 
+	costoHospedaje = 0;
+	costoComida = 0;
+	costoTransporte = 0;
+	costoTotalMantenimiento = 0;
+	costoTotalAumento = 0;
+	cantidadJugadores = 0;
+
+	iniciarJugadores(posiciones, camisestas, confederaciones, TAMPOS, TAMCAM, TAMCON);
+
 	do
 	{
-		mostrarMenuPrincipal(&opcion);
+		mostrarMenuPrincipal(&opcion, costoHospedaje, costoComida, costoTransporte, posiciones);
 
 		switch(opcion)
 		{
@@ -35,17 +62,23 @@ int main(void)
 
 				do
 				{
-					mostrarMenuCostos(&opcion);
+					mostrarMenuCostos(&opcion, costoHospedaje, costoComida, costoTransporte);
 
 					switch(opcion)
 					{
 						case 1:
+
+							pedirFlotante(&costoHospedaje, 1, 9999999, "\nIngrese el costo de hospedaje: ", "\nERROR, Ingrese un valor entre 1 y 9.999.999");
 						break;
 
 						case 2:
+
+							pedirFlotante(&costoComida, 1, 9999999, "\nIngrese el costo de comida: ", "\nERROR, Ingrese un valor entre 1 y 9.999.999");
 						break;
 
 						case 3:
+
+							pedirFlotante(&costoTransporte, 1, 9999999, "\nIngrese el costo de transporte: ", "\nERROR, Ingrese un valor entre 1 y 9.999.999");
 						break;
 
 						default:
@@ -61,40 +94,35 @@ int main(void)
 
 			case 2: //Carga jugador
 
-				do
+				if(cantidadJugadores < TAMCAM)
 				{
-					mostrarMenuJugadores(&opcion);
-
-					switch(opcion)
-					{
-						case 1:
-						break;
-
-						case 2:
-						break;
-
-						case 3:
-						break;
-
-						case 4:
-						break;
-
-						default:
-
-							printf("\nVolviendo...");
-						break;
-					}
-				}while(opcion !=5);
+					cargarJugadores(posiciones, camisestas, confederaciones, TAMPOS, TAMCAM, TAMCON);
+					cantidadJugadores++;
+					printf("\n\tJugador cargado con exito");
+				}
+				else
+				{
+					printf("\nYa ingreso los 22 jugadores");
+				}
 
 				cargoJugadores = 's';
-				opcion = 0;
 			break;
 
 			case 3: //Realizar calculos
 
 				if(ingresoCostos == 's' && cargoJugadores == 's')
 				{
-					printf("k");
+
+					costoTotalMantenimiento = costoHospedaje + costoComida + costoTransporte;
+
+					calcularPromedioConfederaciones(promediosConfederaciones, confederaciones, TAMCON, cantidadJugadores);
+
+					if(promediosConfederaciones[0] > 0.5)
+					{
+						costoTotalAumento = costoTotalMantenimiento * 0.35;
+					}
+
+					printf("\n\tLos calculos se realizaron con exito");
 					realizoCalculos = 's';
 				}
 				else
@@ -109,7 +137,7 @@ int main(void)
 				{
 					if(realizoCalculos == 's')
 					{
-						printf("k");
+						imprimirResultados(promediosConfederaciones, costoTotalMantenimiento, costoTotalAumento, TAMCON);
 					}
 					else
 					{
@@ -138,7 +166,6 @@ int main(void)
 			break;
 		}
 	}while(opcion != 5);
-
 
 	return 0;
 }
