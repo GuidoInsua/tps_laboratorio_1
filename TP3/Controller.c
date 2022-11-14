@@ -802,7 +802,7 @@ int controller_guardarIdAutoIncrementalModoTexto(char* path,int idJugadorAutoInc
 
 	pFile = fopen(path,"w");
 
-	if(pFile != NULL && idJugadorAutoIncremental != NULL)
+	if(pFile != NULL && idJugadorAutoIncremental > 0)
 	{
 		if(parser_idToText(pFile, idJugadorAutoIncremental) == 0)
 		{
