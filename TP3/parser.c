@@ -14,12 +14,12 @@
 
 //-----------------------------------------------------------------------------------------------
 
-/** \brief Parsea los datos de los jugadores desde el archivo jugadores.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListJugador LinkedList*
- * \return int
- */
+/// \fn int parser_JugadorFromText(FILE*, LinkedList*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListJugador
+/// \return
 int parser_JugadorFromText(FILE* pFile , LinkedList* pArrayListJugador)
 {
 	int retorno;
@@ -66,13 +66,12 @@ int parser_JugadorFromText(FILE* pFile , LinkedList* pArrayListJugador)
 
 //-----------------------------------------------------------------------------------------------
 
-/** \brief Parsea los datos de los jugadores desde el archivo binario.
- *
- * \param path char*
- * \param pArrayListJugador LinkedList*
- * \return int
- *
- */
+/// \fn int parser_JugadorFromBinary(FILE*, LinkedList*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListSeleccion
+/// \return
 int parser_JugadorFromBinary(FILE* pFile , LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -99,7 +98,7 @@ int parser_JugadorFromBinary(FILE* pFile , LinkedList* pArrayListSeleccion)
 				cantidad = fread(unJugador,sizeof(Jugador),1,pFile);
 				if(cantidad == 1)
 				{
-					controller_listarUnJugador(unJugador, pArrayListSeleccion);
+					controller_listarUnJugador(unJugador, pArrayListSeleccion,'n');
 					retorno = 0;
 				}
 			}
@@ -113,13 +112,12 @@ int parser_JugadorFromBinary(FILE* pFile , LinkedList* pArrayListSeleccion)
 
 //-----------------------------------------------------------------------------------------------
 
-/** \brief Parsea los datos de los selecciones desde el archivo selecciones.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListSeleccion LinkedList*
- * \return int
- *
- */
+/// \fn int parser_SeleccionFromText(FILE*, LinkedList*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListSeleccion
+/// \return
 int parser_SeleccionFromText(FILE* pFile , LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -166,6 +164,12 @@ int parser_SeleccionFromText(FILE* pFile , LinkedList* pArrayListSeleccion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int parser_idFromText(FILE*, int*)
+/// \brief
+///
+/// \param pFile
+/// \param idJugadorAutoIncremental
+/// \return
 int parser_idFromText(FILE* pFile,int* idJugadorAutoIncremental)
 {
 	int cantidad;
@@ -194,6 +198,14 @@ int parser_idFromText(FILE* pFile,int* idJugadorAutoIncremental)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int parser_JugadorToBinary(FILE*, LinkedList*, LinkedList*, char*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListJugador
+/// \param pArrayListSeleccion
+/// \param confederacion
+/// \return
 int parser_JugadorToBinary(FILE* pFile , LinkedList* pArrayListJugador, LinkedList* pArrayListSeleccion, char* confederacion)
 {
 	int retorno;
@@ -204,7 +216,7 @@ int parser_JugadorToBinary(FILE* pFile , LinkedList* pArrayListJugador, LinkedLi
 
 	retorno = -1;
 
-	if(pFile != NULL && pArrayListJugador != NULL && confederacion != NULL)
+	if(pFile != NULL && pArrayListJugador != NULL && pArrayListSeleccion != NULL && confederacion != NULL)
 	{
 		retorno = 1;
 
@@ -216,7 +228,7 @@ int parser_JugadorToBinary(FILE* pFile , LinkedList* pArrayListJugador, LinkedLi
 
 			if(idSeleccion != 0)
 			{
-				unaSeleccion = buscarUnaSeleccion(pArrayListSeleccion, idSeleccion);
+				unaSeleccion = selec_buscarUnaSeleccion(pArrayListSeleccion, idSeleccion);
 
 				selec_getConfederacion(unaSeleccion, nombreConfederacion);
 
@@ -234,6 +246,12 @@ int parser_JugadorToBinary(FILE* pFile , LinkedList* pArrayListJugador, LinkedLi
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int parser_JugadorToText(FILE*, LinkedList*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListJugador
+/// \return
 int parser_JugadorToText(FILE* pFile , LinkedList* pArrayListJugador)
 {
 	int retorno;
@@ -276,6 +294,12 @@ int parser_JugadorToText(FILE* pFile , LinkedList* pArrayListJugador)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int parser_SeleccionToText(FILE*, LinkedList*)
+/// \brief
+///
+/// \param pFile
+/// \param pArrayListSeleccion
+/// \return
 int parser_SeleccionToText(FILE* pFile , LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -314,6 +338,12 @@ int parser_SeleccionToText(FILE* pFile , LinkedList* pArrayListSeleccion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int parser_idToText(FILE*, int)
+/// \brief
+///
+/// \param pFile
+/// \param idJugadorAutoIncremental
+/// \return
 int parser_idToText(FILE* pFile,int idJugadorAutoIncremental)
 {
 	char id[20];

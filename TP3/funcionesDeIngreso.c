@@ -135,8 +135,11 @@ static int esAlfabetico(char* cadena, int tam, char extendido)
 				retorno = 0;
 				continue;
 			}
-
-			retorno = 1;
+			else
+			{
+				retorno = 1;
+				break;
+			}
 		}
 	}
 
@@ -221,9 +224,8 @@ static int obtenerCadenaAlfabetica(char* buffer, int tam, char extendido)
 
 	retorno = -1;
 
-	if( buffer != NULL &&
-		miFgets(bufferCadena,sizeof(bufferCadena)) == 0 &&
-		esAlfabetico(bufferCadena,sizeof(bufferCadena),extendido) == 0)
+	if( buffer != NULL && miFgets(bufferCadena,sizeof(bufferCadena)) == 0 &&
+			esAlfabetico(bufferCadena,sizeof(bufferCadena),extendido) == 0)
 	{
 		retorno = 0;
 		strncpy(buffer,bufferCadena,tam);

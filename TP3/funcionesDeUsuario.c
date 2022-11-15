@@ -14,6 +14,11 @@
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarMenu(int*)
+/// \brief Imprime el menu principal
+///
+/// \param opcion , puntero int por donde se pasa la eleccion
+/// \return retorna 0 si todo sale bien o -1 si se pasa mal algun parametro
 int mostrarMenu(int* opcion)
 {
 	int retorno;
@@ -51,26 +56,126 @@ int mostrarMenu(int* opcion)
 
 //-----------------------------------------------------------------------------------------------
 
-int pedirDatosJugador(char* nombre,char* edad,char* posicion,char* nacionalidad,int tamNombre,int tamCadena)
+/// \fn int pedirPosicion(char*, char*, char*)
+/// \brief
+///
+/// \param posicion
+/// \param mensaje
+/// \param mensajeError
+/// \return
+int pedirPosicion(char* posicion,char* mensaje,char* mensajeError)
+{
+	int retorno;
+	char posiciones[11][200] = {"Portero","Defensa central","Lateral izquierdo","Lateral derecho","Pivote","Mediocentro","Mediocentro ofensivo","Mediapunta","Delantero centro","Interior derecho","Extremo derecho"};
+	int opcionPosicion;
+
+	retorno = -1;
+
+	if(posicion != NULL && mensaje != NULL && mensajeError != NULL)
+	{
+		printf("\n+--------------------------+");
+		printf("\n|        Posiciones        |");
+		printf("\n+--------------------------+");
+		printf("\n| 1 = %-*s|",21,*(posiciones+0));
+		printf("\n| 2 = %-*s|",21,*(posiciones+1));
+		printf("\n| 3 = %-*s|",21,*(posiciones+2));
+		printf("\n| 4 = %-*s|",21,*(posiciones+3));
+		printf("\n| 5 = %-*s|",21,*(posiciones+4));
+		printf("\n| 6 = %-*s|",21,*(posiciones+5));
+		printf("\n| 7 = %-*s|",21,*(posiciones+6));
+		printf("\n| 8 = %-*s|",21,*(posiciones+7));
+		printf("\n| 9 = %-*s|",21,*(posiciones+8));
+		printf("\n| 10 = %-*s|",20,*(posiciones+9));
+		printf("\n| 11 = %-*s|",20,*(posiciones+10));
+		printf("\n+--------------------------+");
+
+		pedirEntero(&opcionPosicion, 1, 11, mensaje, mensajeError);
+
+		strcpy(posicion,*(posiciones+opcionPosicion-1));
+
+		retorno = 0;
+	}
+
+	return retorno;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+/// \fn int pedirNacionalidad(char*, char*, char*)
+/// \brief
+///
+/// \param nacionalidad
+/// \param mensaje
+/// \param mensajeError
+/// \return
+int pedirNacionalidad(char* nacionalidad,char* mensaje,char* mensajeError)
+{
+	int retorno;
+	char nacionalidades[12][200] = {"Aleman","Argentino","Austrialiano","Brasilero","Camerunes","Estado Unidense","Ingles","Mexicano","Portugues","Qatari","Senegales","Uruguayo"};
+	int opcionNacionalidad;
+
+	retorno = -1;
+
+	if(nacionalidad != NULL && mensaje != NULL && mensajeError != NULL)
+	{
+		printf("\n+--------------------------+");
+		printf("\n|      Nacionalidades      |");
+		printf("\n+--------------------------+");
+		printf("\n| 1 = %-*s|",21,*(nacionalidades+0));
+		printf("\n| 2 = %-*s|",21,*(nacionalidades+1));
+		printf("\n| 3 = %-*s|",21,*(nacionalidades+2));
+		printf("\n| 4 = %-*s|",21,*(nacionalidades+3));
+		printf("\n| 5 = %-*s|",21,*(nacionalidades+4));
+		printf("\n| 6 = %-*s|",21,*(nacionalidades+5));
+		printf("\n| 7 = %-*s|",21,*(nacionalidades+6));
+		printf("\n| 8 = %-*s|",21,*(nacionalidades+7));
+		printf("\n| 9 = %-*s|",21,*(nacionalidades+8));
+		printf("\n| 10 = %-*s|",20,*(nacionalidades+9));
+		printf("\n| 11 = %-*s|",20,*(nacionalidades+10));
+		printf("\n| 12 = %-*s|",20,*(nacionalidades+11));
+		printf("\n+--------------------------+");
+
+		pedirEntero(&opcionNacionalidad, 1, 11, mensaje, mensajeError);
+
+		strcpy(nacionalidad,*(nacionalidades+opcionNacionalidad-1));
+
+		retorno = 0;
+	}
+
+	return retorno;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+/// \fn int pedirDatosJugador(char*, char*, char*, char*, int)
+/// \brief Pide el nombre, edad, posicion y nacionalidad de un jugador
+///
+/// \param nombre , char cadena por donde se pasa el nombre
+/// \param edad , char cadena por donde se pasa la edad
+/// \param posicion , char cadena por donde se pasa la posicion
+/// \param nacionalidad , char cadena por donde se pasa la nacionalidad
+/// \param tamNombre , int tamanio que puede tomar la cadena nombre
+/// \return retorna 0 si sale todo bien o -1 si se pasa mal algun parametro
+int pedirDatosJugador(char* nombre,char* edad,char* posicion,char* nacionalidad,int tamNombre)
 {
 	int retorno;
 	char bufferNombre[tamNombre];
 	int bufferEdad;
-	char bufferPosicion[tamCadena];
-	char bufferNacionalidad[tamCadena];
+	char bufferPosicion[tamNombre];
+	char bufferNacionalidad[tamNombre];
 
 	retorno = -1;
 
-	if(nombre != NULL && edad != NULL && posicion != NULL && nacionalidad != NULL)
+	if(nombre != NULL && edad != NULL && posicion != NULL && nacionalidad != NULL && tamNombre > 0)
 	{
 		pedirStringAlfabetico(bufferNombre, tamNombre, "\nIngrese el nombre completo del jugador: ", "\nERROR, Ingrese solo letras y no mas de 100", 's');
 		pedirEntero(&bufferEdad, 18, 100, "\nIngrese la edad del jugador: ", "\nERROR, Ingrese un numero entre 18 y 100");
-		pedirStringAlfabetico(bufferPosicion, tamCadena, "\nIngrese la posicion del jugador: ", "\nERROR, Ingrese solo letras y no mas de 30", 's');
-		pedirStringAlfabetico(bufferNacionalidad, tamCadena, "\nIngrese la nacionalidad del jugador: ", "\nERROR, Ingrese solo letras y no mas de 30", 's');
+		pedirPosicion(bufferPosicion, "\nIngrese la posicion del jugador: ", "\nERROR, Ingrese un numero del 1 al 11");
+		pedirNacionalidad(bufferNacionalidad, "\nIngrese la nacionalidad del jugador: ", "\nERROR, Ingrese un numero entre 1 y 12");
 
 		convertirUprLwrExtendido(bufferNombre, tamNombre);
-		convertirUprLwrExtendido(bufferPosicion, tamCadena);
-		convertirUprLwrExtendido(bufferNacionalidad, tamCadena);
+		convertirUprLwrExtendido(bufferPosicion, tamNombre);
+		convertirUprLwrExtendido(bufferNacionalidad, tamNombre);
 
 		strcpy(nombre,bufferNombre);
 		itoa(bufferEdad,edad,10);
@@ -85,6 +190,11 @@ int pedirDatosJugador(char* nombre,char* edad,char* posicion,char* nacionalidad,
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarMenuListados(int*)
+/// \brief Imprime el menu de opciones para listar
+///
+/// \param opcion , puntero int por donde se pasa la eleccion
+/// \return retorna 0 si salio todo bien o -1 si se pasa mal algun parametro
 int mostrarMenuListados(int* opcion)
 {
 	int retorno;
@@ -115,6 +225,12 @@ int mostrarMenuListados(int* opcion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarListados(LinkedList*, LinkedList*)
+/// \brief
+///
+/// \param pArrayListJugador
+/// \param pArrayListSeleccion
+/// \return
 int mostrarListados(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -132,20 +248,20 @@ int mostrarListados(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccio
 			{
 				case 1: //Listar jugadores
 
-					ll_sort(pArrayListJugador, ordenarJugadorPorId, 1);
-					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion);
+					ll_sort(pArrayListJugador, jug_ordenarJugadorPorId, 1);
+					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion,'n');
 				break;
 
 				case 2: //Listar selecciones
 
-					ll_sort(pArrayListSeleccion, ordenarSeleccionPorId, 1);
+					ll_sort(pArrayListSeleccion, selec_ordenarSeleccionPorId, 1);
 					controller_listarSelecciones(pArrayListSeleccion);
 				break;
 
 				case 3: //Listar convocados
 
-					ll_sort(pArrayListJugador, ordenarJugadorPorId, 1);
-					controller_listarJugadoresConvocados(pArrayListJugador,pArrayListSeleccion);
+					ll_sort(pArrayListJugador, jug_ordenarJugadorPorId, 1);
+					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion,'s');
 				break;
 
 				default:
@@ -164,6 +280,11 @@ int mostrarListados(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccio
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarMenuModificacion(int*)
+/// \brief
+///
+/// \param opcion
+/// \return
 int mostrarMenuModificacion(int* opcion)
 {
 	int retorno;
@@ -195,52 +316,12 @@ int mostrarMenuModificacion(int* opcion)
 
 //-----------------------------------------------------------------------------------------------
 
-Jugador* pedirUnJugador(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccion,int* indiceEncontrado)
-{
-	Jugador* unJugador = NULL;
-	Jugador* auxJugador = NULL;
-	int cantidadCargados;
-	int idPedido;
-	int bufferId;
-	int existe;
-
-	existe = 1;
-
-	if(pArrayListJugador != NULL)
-	{
-		ll_sort(pArrayListJugador, ordenarJugadorPorId, 1);
-		controller_listarJugadores(pArrayListJugador,pArrayListSeleccion);
-
-		pedirEntero(&idPedido, 0, 10000, "\nIngrese el id del jugador: ", "\nERROR, Ingrese un numero entre 0 y 10.000");
-
-		cantidadCargados = ll_len(pArrayListJugador);
-
-		for(int i=0;i<cantidadCargados;i++)
-		{
-			auxJugador = ll_get(pArrayListJugador, i);
-
-			jug_getId(auxJugador, &bufferId);
-
-			if(idPedido == bufferId)
-			{
-				unJugador = auxJugador;
-				*indiceEncontrado = i;
-				existe = 0;
-				break;
-			}
-		}
-
-		if(existe != 0)
-		{
-			printf("\nERROR, El id ingresado no pertenece a ningun jugador cargado");
-		}
-	}
-
-	return unJugador;
-}
-
-//-----------------------------------------------------------------------------------------------
-
+/// \fn int modificarNombreJugador(Jugador*, int)
+/// \brief
+///
+/// \param unJugador
+/// \param tamNombre
+/// \return
 int modificarNombreJugador(Jugador* unJugador,int tamNombre)
 {
 	int retorno;
@@ -275,6 +356,11 @@ int modificarNombreJugador(Jugador* unJugador,int tamNombre)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int modificarEdadJugador(Jugador*)
+/// \brief
+///
+/// \param unJugador
+/// \return
 int modificarEdadJugador(Jugador* unJugador)
 {
 	int retorno;
@@ -307,6 +393,12 @@ int modificarEdadJugador(Jugador* unJugador)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int modificarPosicionJugador(Jugador*, int)
+/// \brief
+///
+/// \param unJugador
+/// \param tamPosicion
+/// \return
 int modificarPosicionJugador(Jugador* unJugador,int tamPosicion)
 {
 	int retorno;
@@ -317,7 +409,7 @@ int modificarPosicionJugador(Jugador* unJugador,int tamPosicion)
 
 	if(unJugador != NULL && tamPosicion > 0)
 	{
-		pedirStringAlfabetico(bufferPosicion, tamPosicion, "\nIngrese la nueva posicion del jugador: ", "\nERROR, Ingrese solo letras y no mas de 30", 's');
+		pedirPosicion(bufferPosicion, "\nIngrese la nueva posicion del jugador: ", "\nERROR, Ingrese un numero del 1 al 11");
 
 		pedirCharDosOpciones(&continuar, 's', 'n', "\nEsta seguro que desea modificar el nombre? (s/n): ", "\nERROR, Ingrese 's' para si o 'n' para no");
 
@@ -341,6 +433,12 @@ int modificarPosicionJugador(Jugador* unJugador,int tamPosicion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int modificarNacionalidadJugador(Jugador*, int)
+/// \brief
+///
+/// \param unJugador
+/// \param tamNacionalidad
+/// \return
 int modificarNacionalidadJugador(Jugador* unJugador,int tamNacionalidad)
 {
 	int retorno;
@@ -351,7 +449,7 @@ int modificarNacionalidadJugador(Jugador* unJugador,int tamNacionalidad)
 
 	if(unJugador != NULL && tamNacionalidad > 0)
 	{
-		pedirStringAlfabetico(bufferNacionalidad, tamNacionalidad, "\nIngrese la nueva nacionalidad del jugador: ", "\nERROR, Ingrese solo letras y no mas de 30", 's');
+		pedirNacionalidad(bufferNacionalidad, "\nIngrese la nueva nacionalidad del jugador: ", "\nERROR, Ingrese un numero entre 1 y 12");
 
 		pedirCharDosOpciones(&continuar, 's', 'n', "\nEsta seguro que desea modificar el nombre? (s/n): ", "\nERROR, Ingrese 's' para si o 'n' para no");
 
@@ -375,6 +473,11 @@ int modificarNacionalidadJugador(Jugador* unJugador,int tamNacionalidad)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarMenuConvocar(int*)
+/// \brief
+///
+/// \param opcion
+/// \return
 int mostrarMenuConvocar(int* opcion)
 {
 	int retorno;
@@ -404,6 +507,12 @@ int mostrarMenuConvocar(int* opcion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarOpcionConvocar(LinkedList*, LinkedList*)
+/// \brief
+///
+/// \param pArrayListJugador
+/// \param pArrayListSeleccion
+/// \return
 int mostrarOpcionConvocar(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -445,226 +554,11 @@ int mostrarOpcionConvocar(LinkedList* pArrayListJugador,LinkedList* pArrayListSe
 
 //-----------------------------------------------------------------------------------------------
 
-Seleccion* pedirUnaSeleccion(LinkedList* pArrayListSeleccion,int* indiceEncontrado)
-{
-	Seleccion* unaSeleccion = NULL;
-	Seleccion* auxSeleccion = NULL;
-	int cantidadCargados;
-	int idPedido;
-	int bufferId;
-	int existe;
-
-	existe = 1;
-
-	if(pArrayListSeleccion != NULL)
-	{
-		ll_sort(pArrayListSeleccion, ordenarSeleccionPorId, 1);
-		controller_listarSelecciones(pArrayListSeleccion);
-
-		pedirEntero(&idPedido, 0, 10000, "\nIngrese el id de la seleccion: ", "\nERROR, Ingrese un numero entre 0 y 10.000");
-
-		cantidadCargados = ll_len(pArrayListSeleccion);
-
-		for(int i=0;i<cantidadCargados;i++)
-		{
-			auxSeleccion = ll_get(pArrayListSeleccion, i);
-
-			selec_getId(auxSeleccion, &bufferId);
-
-			if(idPedido == bufferId)
-			{
-				unaSeleccion = auxSeleccion;
-				*indiceEncontrado = i;
-				existe = 0;
-				break;
-			}
-		}
-
-		if(existe != 0)
-		{
-			printf("\nERROR, El id ingresado no pertenece a ninguna seleccion");
-		}
-	}
-
-	return unaSeleccion;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-Seleccion* buscarUnaSeleccion(LinkedList* pArrayListSeleccion,int idSeleccion)
-{
-	Seleccion* unaSeleccion = NULL;
-	Seleccion* auxSeleccion = NULL;
-	int cantidadCargados;
-	int bufferId;
-
-	if(pArrayListSeleccion != NULL)
-	{
-		cantidadCargados = ll_len(pArrayListSeleccion);
-
-		for(int i=0;i<cantidadCargados;i++)
-		{
-			auxSeleccion = ll_get(pArrayListSeleccion, i);
-
-			selec_getId(auxSeleccion, &bufferId);
-
-			if(idSeleccion == bufferId)
-			{
-				unaSeleccion = auxSeleccion;
-				break;
-			}
-		}
-	}
-
-	return unaSeleccion;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarJugadorPorId(void* primerJugador,void* segundoJugador)
-{
-	int primerId;
-	int segundoId;
-
-	if(primerJugador != NULL && segundoJugador != NULL)
-	{
-		jug_getId(primerJugador, &primerId);
-		jug_getId(segundoJugador, &segundoId);
-
-		if(primerId > segundoId)
-		{
-			return 1;
-		}
-		if(primerId < segundoId)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarSeleccionPorId(void* primerSeleccion,void* segundaSeleccion)
-{
-	int primerId;
-	int segundoId;
-
-	if(primerSeleccion != NULL && segundaSeleccion != NULL)
-	{
-		selec_getId(primerSeleccion, &primerId);
-		selec_getId(segundaSeleccion, &segundoId);
-
-		if(primerId > segundoId)
-		{
-			return 1;
-		}
-		if(primerId < segundoId)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarJugadorPorNacionalidad(void* primerJugador,void* segundoJugador)
-{
-	char primeraNacionalidad[TAMCADENA];
-	char segundaNacionalidad[TAMCADENA];
-
-	if(primerJugador != NULL && segundoJugador != NULL)
-	{
-		jug_getNacionalidad(primerJugador, primeraNacionalidad);
-		jug_getNacionalidad(segundoJugador, segundaNacionalidad);
-
-		if(strcmp(primeraNacionalidad,segundaNacionalidad) > 0)
-		{
-			return 1;
-		}
-		if(strcmp(primeraNacionalidad,segundaNacionalidad) < 0)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarJugadorPorNombre(void* primerJugador,void* segundoJugador)
-{
-	char primerNombre[TAMNOMBRE];
-	char segundoNombre[TAMNOMBRE];
-
-	if(primerJugador != NULL && segundoJugador != NULL)
-	{
-		jug_getNombreCompleto(primerJugador, primerNombre);
-		jug_getNombreCompleto(segundoJugador, segundoNombre);
-
-		if(strcmp(primerNombre,segundoNombre) > 0)
-		{
-			return 1;
-		}
-		if(strcmp(primerNombre,segundoNombre) < 0)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarJugadorPorEdad(void* primerJugador,void* segundoJugador)
-{
-	int primerEdad;
-	int segundaEdad;
-
-	if(primerJugador != NULL && segundoJugador != NULL)
-	{
-		jug_getEdad(primerJugador, &primerEdad);
-		jug_getEdad(segundoJugador, &segundaEdad);
-
-		if(primerEdad > segundaEdad)
-		{
-			return 1;
-		}
-		if(primerEdad < segundaEdad)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
-int ordenarSeleccionPorConfederacion(void* primerSeleccion,void* segundaSeleccion)
-{
-	char primerConfederacion[TAMNOMBRE];
-	char segundaConfederacion[TAMNOMBRE];
-
-	if(primerSeleccion != NULL && segundaSeleccion != NULL)
-	{
-		selec_getConfederacion(primerSeleccion, primerConfederacion);
-		selec_getConfederacion(segundaSeleccion, segundaConfederacion);
-
-		if(strcmp(primerConfederacion,segundaConfederacion) > 0)
-		{
-			return 1;
-		}
-		if(strcmp(primerConfederacion,segundaConfederacion) < 0)
-		{
-			return -1;
-		}
-	}
-	return 0;
-}
-
-//-----------------------------------------------------------------------------------------------
-
+/// \fn int mostrarMenuOrdenar(int*)
+/// \brief
+///
+/// \param opcion
+/// \return
 int mostrarMenuOrdenar(int* opcion)
 {
 	int retorno;
@@ -674,15 +568,15 @@ int mostrarMenuOrdenar(int* opcion)
 
 	if(opcion != NULL)
 	{
-		printf("\n\n+----------------------------+");
-		printf("\n|\t %-*s|",20,"  MENU");
-		printf("\n+----------------------------+");
-		printf("\n| %-*s|",27,"1. Jugadores por nacionalidad");
-		printf("\n| %-*s|",27,"2. Selecciones por confederacion");
-		printf("\n| %-*s|",27,"3. Jugadores por edad");
-		printf("\n| %-*s|",27,"4. Jugadores por nombre");
-		printf("\n| %-*s|",27,"5. Volver");
-		printf("\n+----------------------------+");
+		printf("\n\n+----------------------------------+");
+		printf("\n|\t      %-*s|",21,"  MENU");
+		printf("\n+----------------------------------+");
+		printf("\n| %-*s|",33,"1. Jugadores por nacionalidad");
+		printf("\n| %-*s|",33,"2. Selecciones por confederacion");
+		printf("\n| %-*s|",33,"3. Jugadores por edad");
+		printf("\n| %-*s|",33,"4. Jugadores por nombre");
+		printf("\n| %-*s|",33,"5. Volver");
+		printf("\n+----------------------------------+");
 
 		pedirEntero(&buffer, 1, 5, "\n---Ingrese una opcion: ", "\nERROR, Ingrese una opcion entre 1 y 5");
 
@@ -696,6 +590,12 @@ int mostrarMenuOrdenar(int* opcion)
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarOpcionOrdenar(LinkedList*, LinkedList*)
+/// \brief
+///
+/// \param pArrayListJugador
+/// \param pArrayListSeleccion
+/// \return
 int mostrarOpcionOrdenar(LinkedList* pArrayListJugador,LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -713,26 +613,26 @@ int mostrarOpcionOrdenar(LinkedList* pArrayListJugador,LinkedList* pArrayListSel
 			{
 				case 1: //Jugador por nacionalidad
 
-					ll_sort(pArrayListJugador, ordenarJugadorPorNacionalidad, 1);
-					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion);
+					ll_sort(pArrayListJugador, jug_ordenarJugadorPorNacionalidad, 1);
+					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion,'n');
 				break;
 
 				case 2: //Seleccion por confederacion
 
-					ll_sort(pArrayListSeleccion, ordenarSeleccionPorConfederacion, 1);
+					ll_sort(pArrayListSeleccion, selec_ordenarSeleccionPorConfederacion, 1);
 					controller_listarSelecciones(pArrayListSeleccion);
 				break;
 
 				case 3: //Jugador por edad
 
-					ll_sort(pArrayListJugador, ordenarJugadorPorEdad, 1);
-					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion);
+					ll_sort(pArrayListJugador, jug_ordenarJugadorPorEdad, 1);
+					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion,'n');
 				break;
 
 				case 4: //Jugador por nombre
 
-					ll_sort(pArrayListJugador, ordenarJugadorPorNombre, 1);
-					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion);
+					ll_sort(pArrayListJugador, jug_ordenarJugadorPorNombre, 1);
+					controller_listarJugadores(pArrayListJugador,pArrayListSeleccion,'n');
 				break;
 
 				default:
@@ -751,6 +651,12 @@ int mostrarOpcionOrdenar(LinkedList* pArrayListJugador,LinkedList* pArrayListSel
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarOpcionesGuardarBinario(LinkedList*, LinkedList*)
+/// \brief
+///
+/// \param pArrayListJugador
+/// \param pArrayListSeleccion
+/// \return
 int mostrarOpcionesGuardarBinario(LinkedList* pArrayListJugador, LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -806,6 +712,11 @@ int mostrarOpcionesGuardarBinario(LinkedList* pArrayListJugador, LinkedList* pAr
 
 //-----------------------------------------------------------------------------------------------
 
+/// \fn int mostrarOpcionesCargarBinario(LinkedList*)
+/// \brief
+///
+/// \param pArrayListSeleccion
+/// \return
 int mostrarOpcionesCargarBinario(LinkedList* pArrayListSeleccion)
 {
 	int retorno;
@@ -858,3 +769,5 @@ int mostrarOpcionesCargarBinario(LinkedList* pArrayListSeleccion)
 
     return retorno;
 }
+
+//-----------------------------------------------------------------------------------------------

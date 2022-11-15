@@ -28,4 +28,10 @@ int selec_getConfederacion(Seleccion* this,char* confederacion);
 int selec_setConvocados(Seleccion* this,int convocados);
 int selec_getConvocados(Seleccion* this,int* convocados);
 
+Seleccion* selec_pedirUnaSeleccion(LinkedList* pArrayListSeleccion,int* indiceEncontrado);
+Seleccion* selec_buscarUnaSeleccion(LinkedList* pArrayListSeleccion,int idSeleccion);
+
+int selec_ordenarSeleccionPorId(void* primerSeleccion,void* segundaSeleccion);
+int selec_ordenarSeleccionPorConfederacion(void* primerSeleccion,void* segundaSeleccion);
+
 #endif // selec_H_INCLUDED

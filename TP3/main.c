@@ -28,27 +28,24 @@ int main()
     LinkedList* listaSeleciones = ll_newLinkedList();
     char continuar;
     int idJugadorAutoIncremental;
-    int cargados = 0;
-    int seGuardo = 0;
+    int seGuardo = 1;
 
     do{
-
     	mostrarMenu(&option);
         switch(option)
         {
             case 1: //Cargar archivos
 
-            	if(cargados == 0)
+            	if(ll_isEmpty(listaJugadores) == 0)
+            	{
+            		printf("\nLos archivos ya fueron cargados");
+            	}
+            	else
             	{
 					controller_cargarJugadoresDesdeTexto("jugadores.csv",listaJugadores);
 					controller_cargarSeleccionesDesdeTexto("selecciones.csv", listaSeleciones);
 					controller_cargarIdAutoIncrementalDesdeTexto("idAutoIncremental.txt", &idJugadorAutoIncremental);
-
-					cargados = 1;
-            	}
-            	else
-            	{
-            		printf("\nLos archivos ya fueron cargados");
+					seGuardo = 0;
             	}
             break;
 
